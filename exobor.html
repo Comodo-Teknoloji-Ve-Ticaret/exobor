@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EXOBOR — Bor Katkılı Otonom Sera Isıtma Sistemi</title>
+<meta name="description" content="Yerli bor madeninden güç alan, sıfır karbonlu ve tam otonom sera ısıtma sistemi. Isıtma maliyetlerinizi %60 düşürün, 52 haftada amorti edin, hasadınızı 7/24 güvenceye alın.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --frost:#F1F5F2;
+  --glass:#DFE9E2;
+  --pine:#10342A;
+  --pine-deep:#0A241D;
+  --night:#071B15;
+  --ink:#0D1F18;
+  --ember:#E4582A;
+  --ember-soft:#F4A77E;
+  --bor:#4CAF7D;
+  --sky:#6FA8C9;
+  --line:rgba(16,52,42,.16);
+  --radius:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--frost);color:var(--ink);line-height:1.6;font-size:16px;overflow-x:hidden}
+::selection{background:var(--ember);color:#fff}
+h1,h2,h3,.display{font-family:'Archivo',sans-serif}
+.mono{font-family:'IBM Plex Mono',monospace}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+.rv.in{opacity:1;transform:none}
+
+/* ---------- NAV ---------- */
+nav{position:sticky;top:0;z-index:50;background:rgba(241,245,242,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:66px}
+.logo{font-family:'Archivo',sans-serif;font-weight:800;font-stretch:115%;font-size:1.3rem;letter-spacing:.02em;color:var(--pine);text-decoration:none}
+.logo b{color:var(--ember)}
+.nav-links{display:flex;gap:24px;list-style:none;align-items:center}
+.nav-links a{color:var(--pine);text-decoration:none;font-size:.9rem;font-weight:500}
+.nav-links a:hover{color:var(--ember)}
+.nav-cta{background:var(--pine);color:#fff !important;padding:10px 20px;border-radius:99px;font-weight:600;transition:background .2s}
+.nav-cta:hover{background:var(--ember)}
+@media(max-width:920px){.nav-links li:not(:last-child){display:none}}
+
+/* ---------- HERO ---------- */
+.hero{background:linear-gradient(180deg,var(--night) 0%, #0B2620 76%, var(--frost) 76%, var(--frost) 100%);padding:64px 0 0;position:relative}
+.hero-top{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center;padding-bottom:46px}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-family:'IBM Plex Mono',monospace;font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:#A9D6BF;border:1px solid rgba(169,214,191,.3);padding:7px 16px;border-radius:99px;background:rgba(255,255,255,.03)}
+.eyebrow .dot{width:8px;height:8px;border-radius:50%;background:var(--bor);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-size:clamp(2.5rem,5.6vw,4.3rem);font-weight:850;font-stretch:108%;line-height:1.03;letter-spacing:-.018em;color:#fff;margin:24px 0 18px}
+.hero h1 em{font-style:normal;color:var(--ember-soft)}
+.hero p.lead{font-size:1.08rem;color:#A9CDBB;max-width:33em;margin-bottom:30px}
+.btn-row{display:flex;gap:14px;flex-wrap:wrap}
+.btn{display:inline-block;padding:14px 28px;border-radius:99px;text-decoration:none;font-weight:600;font-size:.95rem;transition:transform .15s ease,background .2s ease,box-shadow .2s ease;border:none;cursor:pointer}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--ember);color:#fff;box-shadow:0 12px 30px -10px rgba(228,88,42,.55)}
+.btn-primary:hover{background:#C8451D}
+.btn-ghost{border:1.5px solid rgba(169,214,191,.45);color:#DCEEE4}
+.hero-stats{display:flex;gap:36px;margin-top:40px;flex-wrap:wrap}
+.hstat .num{font-family:'Archivo',sans-serif;font-weight:800;font-size:1.8rem;color:#fff}
+.hstat .num span{color:var(--ember-soft)}
+.hstat .lab{font-size:.8rem;color:#7FAE97}
+
+.scene{filter:drop-shadow(0 30px 60px rgba(0,0,0,.45));border-radius:20px;overflow:hidden;background:linear-gradient(180deg,#0A2B3A 0%,#0E3A4A 55%,#123F35 100%);border:1px solid rgba(169,214,191,.18)}
+.scene svg{width:100%;height:auto;display:block}
+.snow{animation:snowfall linear infinite}
+@keyframes snowfall{from{transform:translateY(-30px)}to{transform:translateY(330px)}}
+.glowpulse{animation:glow 3.4s ease-in-out infinite}
+@keyframes glow{0%,100%{opacity:.55}50%{opacity:.95}}
+.heatflow{stroke-dasharray:7 9;animation:flowdash 1.1s linear infinite}
+@keyframes flowdash{to{stroke-dashoffset:-16}}
+@media(max-width:900px){.hero-top{grid-template-columns:1fr}}
+
+.monitor{transform:translateY(46px);margin-top:-46px}
+.mon-card{background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 30px 70px -30px rgba(10,36,29,.35);display:grid;grid-template-columns:1.25fr .75fr;overflow:hidden}
+.mon-chart{padding:24px 26px 18px}
+.mon-chart .t{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:#5b746a;display:flex;justify-content:space-between}
+.mon-chart .t .live{color:var(--ember)}
+.mon-chart svg{width:100%;height:auto;display:block;margin-top:8px}
+.mon-side{background:var(--glass);padding:24px 26px;display:flex;flex-direction:column;justify-content:center;gap:16px;border-left:1px solid var(--line)}
+.mrow{display:flex;justify-content:space-between;align-items:baseline}
+.mrow .k{font-size:.82rem;color:#426055}
+.mrow .v{font-family:'Archivo',sans-serif;font-weight:800;font-size:1.25rem;color:var(--pine-deep)}
+.mrow .v.warm{color:var(--ember)}
+.reaction{font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--pine);background:#fff;border:1px dashed var(--line);border-radius:10px;padding:9px 12px;text-align:center}
+.reaction b{color:var(--ember);font-weight:500}
+@media(max-width:760px){.mon-card{grid-template-columns:1fr}.mon-side{border-left:none;border-top:1px solid var(--line)}}
+
+/* ---------- PITCH BAND ---------- */
+.pitch{padding:140px 0 0;text-align:center}
+.pitch blockquote{font-family:'Archivo',sans-serif;font-weight:700;font-stretch:104%;font-size:clamp(1.5rem,3.4vw,2.4rem);line-height:1.25;color:var(--pine-deep);max-width:24em;margin:0 auto;letter-spacing:-.01em}
+.pitch blockquote em{font-style:normal;color:var(--ember)}
+.pitch .sub{margin:18px auto 0;max-width:44em;color:#3d5c52;font-size:1.02rem}
+.pitch-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:880px;margin:38px auto 0}
+.pt{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;text-align:left}
+.pt h3{font-size:.95rem;color:var(--pine-deep);margin-bottom:4px}
+.pt p{font-size:.84rem;color:#4a6359}
+@media(max-width:760px){.pitch-tiles{grid-template-columns:1fr}}
+
+/* ---------- SECTIONS ---------- */
+section{padding:96px 0}
+.sec-head{max-width:700px;margin-bottom:50px}
+.sec-tag{font-family:'IBM Plex Mono',monospace;font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ember);display:block;margin-bottom:13px}
+.sec-head h2{font-size:clamp(1.75rem,3.5vw,2.6rem);font-weight:800;font-stretch:106%;line-height:1.1;color:var(--pine-deep);letter-spacing:-.012em}
+.sec-head p{margin-top:15px;color:#3d5c52;font-size:1.02rem}
+
+/* problem */
+.p-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.p-card{border:1px solid var(--line);border-radius:var(--radius);padding:26px 22px;background:#fff;transition:transform .25s ease,box-shadow .25s ease}
+.p-card:hover{transform:translateY(-5px);box-shadow:0 22px 40px -22px rgba(10,36,29,.28)}
+.p-card .big{font-family:'Archivo',sans-serif;font-weight:800;font-size:2rem;color:var(--ember);line-height:1.05}
+.p-card h3{font-size:1rem;margin:12px 0 6px;color:var(--pine-deep)}
+.p-card p{font-size:.88rem;color:#4a6359}
+@media(max-width:980px){.p-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.p-grid{grid-template-columns:1fr}}
+
+/* system diagram */
+.sys{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.diagram-card{border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,#FBFDFC 0%,#EEF5F0 100%);padding:30px 26px 14px;box-shadow:0 30px 60px -40px rgba(10,36,29,.3)}
+.diagram-card svg{width:100%;height:auto;display:block}
+.flow{stroke-dasharray:6 8;animation:flowdash 1.2s linear infinite}
+.flow.slow{animation-duration:2s}
+.h2bubble{animation:bubble 2.6s ease-in infinite}
+@keyframes bubble{0%{transform:translateY(0);opacity:0}15%{opacity:.9}100%{transform:translateY(-34px);opacity:0}}
+.heatwave{animation:heatw 2.8s ease-in-out infinite}
+@keyframes heatw{0%,100%{opacity:.25}50%{opacity:.85}}
+.legend-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:34px}
+.leg{display:flex;gap:14px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px;transition:border-color .2s,box-shadow .2s}
+.leg:hover{border-color:var(--ember);box-shadow:0 14px 30px -18px rgba(228,88,42,.35)}
+.leg .n{flex:0 0 30px;height:30px;border-radius:50%;background:var(--pine);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:.8rem;font-weight:600}
+.leg h3{font-size:.95rem;color:var(--pine-deep);margin-bottom:3px}
+.leg p{font-size:.82rem;color:#4a6359;line-height:1.5}
+@media(max-width:920px){.legend-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.legend-grid{grid-template-columns:1fr}}
+.flow-key{display:flex;gap:22px;flex-wrap:wrap;margin-top:18px;justify-content:center;font-size:.78rem;color:#4a6359}
+.flow-key .fk{display:flex;align-items:center;gap:8px}
+.flow-key i{width:22px;height:3px;border-radius:3px;display:inline-block}
+.techline{margin-top:26px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:#5b746a;border:1px dashed var(--line);border-radius:12px;padding:12px 18px;background:#FAFCFB}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;counter-reset:step}
+.step{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:30px 26px;position:relative;counter-increment:step;transition:transform .25s ease,box-shadow .25s ease}
+.step:hover{transform:translateY(-5px);box-shadow:0 22px 44px -24px rgba(10,36,29,.3)}
+.step::before{content:counter(step,decimal-leading-zero);font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--ember);display:block;margin-bottom:16px;letter-spacing:.12em}
+.step h3{font-size:1.12rem;color:var(--pine-deep);margin-bottom:9px}
+.step p{font-size:.92rem;color:#426055}
+@media(max-width:880px){.steps{grid-template-columns:1fr}}
+
+/* features dark */
+.features{background:var(--pine-deep);color:#E4F1E9;position:relative;overflow:hidden}
+.features::before{content:"";position:absolute;top:-180px;right:-180px;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(228,88,42,.16),transparent 65%)}
+.features .sec-head h2{color:#fff}
+.features .sec-head p{color:#A9CDBB}
+.f-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(228,241,233,.14);border:1px solid rgba(228,241,233,.14);border-radius:var(--radius);overflow:hidden;position:relative}
+.f-cell{background:var(--pine-deep);padding:28px 26px;transition:background .25s}
+.f-cell:hover{background:#0E3127}
+.f-cell .ic{width:42px;height:42px;border-radius:12px;background:rgba(228,88,42,.14);display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:16px}
+.f-cell h3{font-size:1.02rem;color:#fff;margin-bottom:8px}
+.f-cell p{font-size:.87rem;color:#9DC4B1}
+@media(max-width:880px){.f-grid{grid-template-columns:1fr}}
+
+/* rakip analizi table */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:#fff;box-shadow:0 24px 50px -34px rgba(10,36,29,.3)}
+table{width:100%;border-collapse:collapse;min-width:700px;font-size:.92rem}
+th,td{padding:14px 18px;text-align:left;border-bottom:1px solid var(--line)}
+thead th{font-family:'Archivo',sans-serif;font-weight:700;background:var(--pine-deep);color:#fff;font-size:.85rem}
+thead th:last-child{color:var(--ember-soft)}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:#FAFCFB}
+td.metric{font-weight:600;color:var(--pine-deep)}
+td.old{color:#7a5448}
+td.mid{color:#6a6148}
+td.new{color:var(--pine);font-weight:600}
+td.new .tag{display:inline-block;background:rgba(76,175,125,.14);color:#1f7a4f;border-radius:6px;padding:1px 9px;font-size:.78rem;font-weight:600;margin-left:6px}
+.tbl-note{font-size:.8rem;color:#5b746a;margin-top:14px}
+
+/* cost toggle */
+.toggle-row{display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap}
+.tgl{font-family:'IBM Plex Mono',monospace;font-size:.8rem;letter-spacing:.04em;padding:10px 20px;border-radius:99px;border:1.5px solid var(--line);background:#fff;color:var(--pine);cursor:pointer;transition:all .2s}
+.tgl.active{background:var(--pine);color:#fff;border-color:var(--pine)}
+.tgl:hover:not(.active){border-color:var(--ember);color:var(--ember)}
+.cost-panel{display:none}
+.cost-panel.show{display:block}
+
+/* chart */
+.chart-card{margin-top:34px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:0 24px 50px -34px rgba(10,36,29,.25)}
+.chart-card h3{font-size:1.05rem;color:var(--pine-deep);margin-bottom:4px}
+.chart-card .cs{font-size:.82rem;color:#5b746a;margin-bottom:16px}
+.chart-card svg{width:100%;height:auto;display:block}
+.bar{transition:opacity .2s}
+.bar:hover{opacity:.8}
+
+/* market */
+.market{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.funnel{display:grid;grid-template-columns:1fr;gap:14px;max-width:840px}
+.fcard{border:1px solid var(--line);border-radius:var(--radius);padding:22px 26px;display:grid;grid-template-columns:200px 1fr;gap:20px;align-items:center;background:var(--frost)}
+.fcard.f1{width:100%}
+.fcard.f2{width:88%}
+.fcard.f3{width:76%;background:#EAF6EF;border-color:rgba(76,175,125,.4)}
+.fcard .scope{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ember)}
+.fcard .val{font-family:'Archivo',sans-serif;font-weight:800;font-size:1.5rem;color:var(--pine-deep);line-height:1.15}
+.fcard p{font-size:.88rem;color:#426055}
+@media(max-width:680px){.fcard{grid-template-columns:1fr}.fcard.f2,.fcard.f3{width:100%}}
+.strategy{margin-top:30px;border-left:3px solid var(--ember);padding:6px 0 6px 20px;color:#3d5c52;font-size:.95rem;max-width:60em}
+.strategy b{color:var(--pine-deep)}
+
+/* business model */
+.bm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.bm{border:1px solid var(--line);border-radius:var(--radius);padding:30px 26px;background:#fff;transition:transform .25s ease,box-shadow .25s ease}
+.bm:hover{transform:translateY(-5px);box-shadow:0 22px 44px -24px rgba(10,36,29,.3)}
+.bm .k{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ember);margin-bottom:13px;display:block}
+.bm h3{font-size:1.14rem;color:var(--pine-deep);margin-bottom:10px}
+.bm p{font-size:.9rem;color:#426055}
+.bm.hl{background:var(--pine);border-color:var(--pine)}
+.bm.hl h3{color:#fff}
+.bm.hl p{color:#B7D8C8}
+.bm.hl .k{color:var(--ember-soft)}
+@media(max-width:880px){.bm-grid{grid-template-columns:1fr}}
+.price-band{margin-top:26px;background:var(--glass);border:1px solid var(--line);border-radius:var(--radius);padding:18px 24px;display:flex;gap:14px 34px;flex-wrap:wrap;justify-content:center;font-size:.88rem;color:var(--pine-deep)}
+.price-band b{color:var(--ember)}
+.growth-line{text-align:center;margin-top:18px;font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:#2E8C6A}
+
+/* SKA */
+.ska-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.ska{border-radius:var(--radius);padding:22px 18px;color:#fff;display:flex;flex-direction:column;gap:8px;transition:transform .25s ease}
+.ska:hover{transform:translateY(-5px)}
+.ska .no{font-family:'Archivo',sans-serif;font-weight:800;font-size:1.7rem;opacity:.9}
+.ska h3{font-size:.92rem;line-height:1.3}
+.ska p{font-size:.78rem;opacity:.92;line-height:1.5}
+.ska.s2{background:#C8a226;background:#BF8B2E}
+.ska.s6{background:#26BDE2;background:#2496C9}
+.ska.s7{background:#FCC30B;background:#D9A40B;color:#2c2304}
+.ska.s12{background:#BF8B2E;background:#A66A2C}
+.ska.s13{background:#3F7E44}
+@media(max-width:980px){.ska-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.ska-grid{grid-template-columns:1fr}}
+
+/* neden biz */
+.why{background:var(--pine-deep)}
+.why .sec-head h2{color:#fff}
+.why .sec-head p{color:#A9CDBB}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.w-card{background:#0E3127;border:1px solid rgba(228,241,233,.12);border-radius:var(--radius);padding:26px 24px;transition:border-color .25s,transform .25s}
+.w-card:hover{border-color:var(--ember);transform:translateY(-4px)}
+.w-card .wk{font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ember-soft);display:block;margin-bottom:10px}
+.w-card h3{font-size:1.02rem;color:#fff;margin-bottom:8px}
+.w-card p{font-size:.86rem;color:#9DC4B1}
+@media(max-width:880px){.why-grid{grid-template-columns:1fr}}
+.why-quote{margin-top:42px;text-align:center;font-family:'Archivo',sans-serif;font-weight:700;font-size:clamp(1.1rem,2.2vw,1.4rem);color:#DCEEE4;line-height:1.45}
+.why-quote em{font-style:normal;color:var(--ember-soft)}
+
+/* roadmap */
+.roadmap{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.timeline{position:relative;padding-left:34px}
+.timeline::before{content:"";position:absolute;left:9px;top:6px;bottom:6px;width:2px;background:linear-gradient(180deg,var(--ember),var(--glass))}
+.tl-item{position:relative;padding-bottom:36px}
+.tl-item:last-child{padding-bottom:0}
+.tl-item::before{content:"";position:absolute;left:-32px;top:5px;width:15px;height:15px;border-radius:50%;background:#fff;border:3.5px solid var(--ember)}
+.tl-item .when{font-family:'IBM Plex Mono',monospace;font-size:.76rem;color:var(--ember);letter-spacing:.1em;text-transform:uppercase}
+.tl-item h3{font-size:1.1rem;color:var(--pine-deep);margin:6px 0 6px}
+.tl-item p{font-size:.92rem;color:#426055;max-width:56em}
+.partners{margin-top:48px;border:1px dashed var(--line);border-radius:var(--radius);padding:22px 26px;background:var(--frost)}
+.partners .pk{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ember);display:block;text-align:center;margin-bottom:14px}
+.partners .plist{display:flex;gap:14px 30px;flex-wrap:wrap;justify-content:center;font-family:'Archivo',sans-serif;font-weight:700;font-size:.95rem;color:var(--pine)}
+.partners .plist span{opacity:.85}
+
+/* team */
+.team-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+.member{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px 18px;text-align:center;transition:transform .25s ease,box-shadow .25s ease}
+.member:hover{transform:translateY(-5px);box-shadow:0 22px 44px -26px rgba(10,36,29,.3)}
+.member .avatar{width:64px;height:64px;border-radius:50%;margin:0 auto 14px;background:linear-gradient(140deg,var(--pine),#1E5A45);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Archivo',sans-serif;font-weight:800;font-size:1.2rem;border:3px solid var(--glass)}
+.member h3{font-size:.96rem;color:var(--pine-deep)}
+.member .uni{font-size:.77rem;color:#5b746a;margin-top:4px;line-height:1.45}
+.member .role{display:inline-block;margin-top:11px;font-family:'IBM Plex Mono',monospace;font-size:.69rem;color:var(--ember);background:rgba(228,88,42,.09);padding:3px 11px;border-radius:99px}
+@media(max-width:980px){.team-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.team-grid{grid-template-columns:1fr}}
+
+/* CTA */
+.cta{background:linear-gradient(160deg,var(--pine-deep) 0%,#0E3A2C 100%);text-align:center;padding:100px 0;position:relative;overflow:hidden}
+.cta::before{content:"";position:absolute;bottom:-220px;left:50%;transform:translateX(-50%);width:640px;height:640px;border-radius:50%;background:radial-gradient(circle,rgba(228,88,42,.2),transparent 62%)}
+.cta .wrap{position:relative}
+.cta h2{font-size:clamp(1.8rem,4vw,2.8rem);color:#fff;font-weight:800;font-stretch:106%;letter-spacing:-.012em;max-width:18em;margin:0 auto 16px;line-height:1.12}
+.cta p{color:#A9CDBB;max-width:38em;margin:0 auto 32px}
+footer{background:var(--night);border-top:1px solid rgba(228,241,233,.1);padding:28px 0;color:#7FAE97;font-size:.82rem}
+.foot-inner{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.foot-inner .mono{color:#5E8E78}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+  html{scroll-behavior:auto}
+  .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <a class="logo" href="#top">EXO<b>BOR</b></a>
+    <ul class="nav-links">
+      <li><a href="#problem">Problem</a></li>
+      <li><a href="#sistem">Sistem</a></li>
+      <li><a href="#karsilastirma">Analiz</a></li>
+      <li><a href="#pazar">Pazar</a></li>
+      <li><a href="#is-modeli">İş Modeli</a></li>
+      <li><a href="#ekip">Ekip</a></li>
+      <li><a class="nav-cta" href="#iletisim">Demo Talep Et</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="top">
+  <div class="wrap hero-top">
+    <div>
+      <span class="eyebrow"><span class="dot"></span>TÜBİTAK BİGG · HAVELSAN Anka JET BİGG</span>
+      <h1>Dışarısı donarken,<br>seranız <em>18&nbsp;°C.</em></h1>
+      <p class="lead">EXOBOR; gücünü Türkiye'nin yerli bor kaynağından alan, sıfır karbon emisyonlu, 7/24 tam otonom bir kojenerasyon sistemidir. Don tehlikesine saniyeler içinde tepki verir, ısıtma maliyetini %60 düşürür ve yatırımını 52 haftada amorti eder.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="#iletisim">Ücretsiz Fizibilite Raporu</a>
+        <a class="btn btn-ghost" href="#sistem">Sistemi İncele</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><div class="num"><span>%60</span></div><div class="lab">maliyet azalması</div></div>
+        <div class="hstat"><div class="num">0 <span>CO₂</span></div><div class="lab">karbon emisyonu</div></div>
+        <div class="hstat"><div class="num">52 <span>Hft</span></div><div class="lab">amortisman süresi</div></div>
+      </div>
+    </div>
+
+    <!-- Greenhouse winter night scene -->
+    <div class="scene" aria-label="Karlı bir kış gecesinde EXOBOR ile ısıtılan sera illüstrasyonu">
+      <svg viewBox="0 0 520 330" xmlns="http://www.w3.org/2000/svg" role="img">
+        <defs>
+          <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#0A2B3A"/><stop offset="1" stop-color="#10404F"/>
+          </linearGradient>
+          <linearGradient id="warmG" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0" stop-color="#F4A77E" stop-opacity=".95"/>
+            <stop offset="1" stop-color="#F4D27E" stop-opacity=".55"/>
+          </linearGradient>
+          <radialGradient id="haloG" cx=".5" cy=".62" r=".55">
+            <stop offset="0" stop-color="#F4A77E" stop-opacity=".45"/>
+            <stop offset="1" stop-color="#F4A77E" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="520" height="330" fill="url(#skyG)"/>
+        <circle cx="452" cy="52" r="20" fill="#DCEEF4" opacity=".9"/>
+        <circle cx="444" cy="46" r="20" fill="#0A2B3A" opacity=".55"/>
+        <g fill="#CFE6EE">
+          <circle cx="60" cy="40" r="1.4" opacity=".8"/><circle cx="140" cy="66" r="1.1" opacity=".6"/>
+          <circle cx="230" cy="34" r="1.3" opacity=".7"/><circle cx="320" cy="58" r="1.1" opacity=".5"/>
+          <circle cx="388" cy="28" r="1.4" opacity=".8"/><circle cx="96" cy="92" r="1" opacity=".5"/>
+        </g>
+        <g font-family="IBM Plex Mono, monospace">
+          <rect x="26" y="26" width="118" height="34" rx="9" fill="rgba(10,43,58,.7)" stroke="#6FA8C9" stroke-width="1"/>
+          <text x="40" y="48" fill="#9FD0E8" font-size="13">DIŞ  −12&#176;C</text>
+        </g>
+        <rect y="262" width="520" height="68" fill="#E8F2F0"/>
+        <ellipse cx="120" cy="262" rx="180" ry="14" fill="#F4FAF8"/>
+        <ellipse cx="420" cy="266" rx="170" ry="12" fill="#F1F8F5"/>
+        <ellipse class="glowpulse" cx="225" cy="208" rx="200" ry="120" fill="url(#haloG)"/>
+        <g>
+          <path d="M95,262 L95,180 L225,118 L355,180 L355,262 Z" fill="url(#warmG)" stroke="#3E5C52" stroke-width="2.5"/>
+          <path d="M95,180 L225,118 L355,180" fill="none" stroke="#FBE9D8" stroke-width="2" opacity=".7"/>
+          <g stroke="#3E5C52" stroke-width="1.6" opacity=".75">
+            <line x1="138" y1="262" x2="138" y2="160"/><line x1="181" y1="262" x2="181" y2="139"/>
+            <line x1="225" y1="262" x2="225" y2="118"/><line x1="269" y1="262" x2="269" y2="139"/>
+            <line x1="312" y1="262" x2="312" y2="160"/>
+            <line x1="95" y1="222" x2="355" y2="222"/><line x1="95" y1="190" x2="355" y2="190"/>
+          </g>
+          <g fill="#1E5A45" opacity=".85">
+            <path d="M120,262 c0,-16 6,-26 9,-26 c3,0 9,10 9,26 z"/>
+            <path d="M158,262 c0,-20 7,-32 10,-32 c3,0 10,12 10,32 z"/>
+            <path d="M200,262 c0,-17 6,-28 9,-28 c3,0 9,11 9,28 z"/>
+            <path d="M243,262 c0,-21 7,-33 10,-33 c3,0 10,12 10,33 z"/>
+            <path d="M286,262 c0,-16 6,-27 9,-27 c3,0 9,11 9,27 z"/>
+            <path d="M322,262 c0,-13 5,-22 8,-22 c3,0 8,9 8,22 z"/>
+          </g>
+          <path d="M95,180 L225,118 L355,180 L348,180 L225,124 L102,180 Z" fill="#F4FAF8"/>
+          <g font-family="IBM Plex Mono, monospace">
+            <rect x="172" y="200" width="106" height="32" rx="9" fill="rgba(16,52,42,.78)" stroke="#F4A77E" stroke-width="1"/>
+            <text x="186" y="221" fill="#FBD6BC" font-size="13">İÇ  +18&#176;C</text>
+          </g>
+        </g>
+        <g>
+          <rect x="408" y="186" width="76" height="76" rx="10" fill="#10342A" stroke="#1E5A45" stroke-width="2"/>
+          <rect x="420" y="198" width="52" height="14" rx="4" fill="#E4582A"/>
+          <text x="426" y="209" fill="#fff" font-family="IBM Plex Mono, monospace" font-size="8.5">NaBH&#8324;</text>
+          <rect x="424" y="220" width="20" height="34" rx="6" fill="#1E5A45" stroke="#4CAF7D" stroke-width="1.4"/>
+          <circle class="glowpulse" cx="434" cy="237" r="5.5" fill="#E4582A"/>
+          <circle cx="458" cy="226" r="3" fill="#4CAF7D"><animate attributeName="opacity" values="1;.3;1" dur="1.8s" repeatCount="indefinite"/></circle>
+          <circle cx="470" cy="226" r="3" fill="#F4A77E"/>
+          <text x="452" y="250" fill="#7FAE97" font-family="IBM Plex Mono, monospace" font-size="8">EXOBOR</text>
+          <path class="heatflow" d="M408,238 C390,238 376,232 355,228" fill="none" stroke="#E4582A" stroke-width="4" stroke-linecap="round"/>
+        </g>
+        <g class="snow" style="animation-duration:9s" fill="#EAF4F8" opacity=".85">
+          <circle cx="50" cy="-10" r="2"/><circle cx="120" cy="-70" r="1.6"/><circle cx="200" cy="-30" r="2"/>
+          <circle cx="280" cy="-90" r="1.7"/><circle cx="350" cy="-20" r="2"/><circle cx="430" cy="-60" r="1.6"/>
+          <circle cx="490" cy="-110" r="2"/><circle cx="90" cy="-140" r="1.7"/><circle cx="250" cy="-160" r="2"/>
+          <circle cx="390" cy="-180" r="1.6"/>
+        </g>
+        <g class="snow" style="animation-duration:13s" fill="#D7E8EF" opacity=".6">
+          <circle cx="75" cy="-40" r="1.3"/><circle cx="160" cy="-110" r="1.5"/><circle cx="235" cy="-60" r="1.2"/>
+          <circle cx="310" cy="-140" r="1.4"/><circle cx="410" cy="-90" r="1.3"/><circle cx="470" cy="-30" r="1.5"/>
+          <circle cx="30" cy="-170" r="1.3"/><circle cx="300" cy="-200" r="1.4"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <div class="wrap monitor">
+    <div class="mon-card">
+      <div class="mon-chart">
+        <div class="t"><span>Termal İzleme — Kırşehir, Ocak Gecesi</span><span class="live">● CANLI</span></div>
+        <svg viewBox="0 0 560 170" role="img" aria-label="Dış sıcaklık eksi 12 dereceye düşerken sera içi 18 derecede sabit">
+          <g stroke="rgba(16,52,42,.08)" stroke-width="1">
+            <line x1="44" y1="20" x2="548" y2="20"/><line x1="44" y1="58" x2="548" y2="58"/>
+            <line x1="44" y1="96" x2="548" y2="96"/><line x1="44" y1="134" x2="548" y2="134"/>
+          </g>
+          <line x1="44" y1="96" x2="548" y2="96" stroke="#C9A08F" stroke-width="1" stroke-dasharray="4 4"/>
+          <g fill="#5b746a" font-family="IBM Plex Mono, monospace" font-size="10">
+            <text x="8" y="24">+20&#176;</text><text x="8" y="62">+10&#176;</text>
+            <text x="20" y="100">0&#176;</text><text x="8" y="138">−10&#176;</text>
+            <text x="44" y="160">22:00</text><text x="270" y="160">02:00</text><text x="500" y="160">06:00</text>
+          </g>
+          <path d="M44,74 C140,80 200,96 290,116 C370,132 460,142 548,146" fill="none" stroke="#6FA8C9" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M44,27 C130,28 190,30 260,28 C330,26 380,30 440,28 C490,26 530,28 548,27" fill="none" stroke="#E4582A" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="260" cy="28" r="4" fill="#E4582A"><animate attributeName="r" values="3;6;3" dur="2.4s" repeatCount="indefinite"/></circle>
+          <circle cx="440" cy="28" r="4" fill="#E4582A"><animate attributeName="r" values="3;6;3" dur="2.4s" begin="1.2s" repeatCount="indefinite"/></circle>
+          <text x="400" y="140" fill="#6FA8C9" font-family="IBM Plex Mono, monospace" font-size="10">Dış ortam</text>
+          <text x="402" y="20" fill="#E4582A" font-family="IBM Plex Mono, monospace" font-size="10">Sera içi (EXOBOR)</text>
+        </svg>
+      </div>
+      <div class="mon-side">
+        <div class="mrow"><span class="k">Sera içi sıcaklık</span><span class="v warm">18,2&nbsp;°C</span></div>
+        <div class="mrow"><span class="k">Dış ortam</span><span class="v">−12,4&nbsp;°C</span></div>
+        <div class="mrow"><span class="k">Kaset doluluk</span><span class="v">%74</span></div>
+        <div class="reaction">NaBH₄ + 2H₂O → NaBO₂ + 4H₂ <b>+ ISINMA</b></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= ASANSÖR CÜMLESİ ================= -->
+<div class="pitch">
+  <div class="wrap">
+    <blockquote class="rv">Seranızı ısıtmak için artık <em>kömür taşımak</em>, <em>gece nöbeti tutmak</em> veya <em>karbon vergisi ödemek</em> zorunda değilsiniz.</blockquote>
+    <p class="sub rv">Exobor; Türkiye'nin yerli bor kaynağını kullanarak sera ısıtma maliyetini %60 düşüren, sıfır karbon emisyonlu, 7/24 tam otonom kojenerasyon sistemidir.</p>
+    <div class="pitch-tiles">
+      <div class="pt rv"><h3>Sıfır Karbon</h3><p>AB karbon vergisini bypass — premium ihracat fırsatı</p></div>
+      <div class="pt rv"><h3>7/24 Otonom</h3><p>Gece nöbeti yok, soba yok, kül yok</p></div>
+      <div class="pt rv"><h3>Yerli Hammadde</h3><p>Dünya bor rezervinin %73'ü Türkiye'de</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= PROBLEM ================= -->
+<section id="problem">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-tag">Neden Bu Fikir? — Problem</span>
+      <h2>Karasal iklimde seracılık; kömür kazanına, gece nöbetine ve karbon vergisine mahkûm.</h2>
+      <p>İlham kaynağımız: Kırşehir çiftçilerinin yılda 4.775 saate varan kesintisiz ısıtma yükü. Türkiye, kömür ısıtmalı sera sorununu kendi yerli bor teknolojisiyle çözebilir.</p>
+    </div>
+    <div class="p-grid">
+      <div class="p-card rv"><div class="big">%60–80</div><h3>Üretim gideri ısıtmaya gidiyor</h3><p>Isıtma giderleri toplam üretim maliyetinin %60–80'i; yılda dönüm başına 60–100 bin TL.</p></div>
+      <div class="p-card rv"><div class="big">7/24</div><h3>Kömür nöbeti — çiftçi tükeniyor</h3><p>Her gece kömür taşıma, soba yakma ve kül temizleme; ağır fiziksel yıpranma ve ekstra personel.</p></div>
+      <div class="p-card rv"><div class="big">1 gece</div><h3>Tüm ürün dondan çöpe gidiyor</h3><p>Anlık tepki veremeyen sistemlerde tek bir don olayı rekoltenin %100'ünü yok edebiliyor.</p></div>
+      <div class="p-card rv"><div class="big">209 t</div><h3>CO₂/dönüm — ihracat engeli</h3><p>Yıllık 209 ton CO₂ emisyonu, AB Sınırda Karbon Vergisi (CBAM) karşısında ihracat engeli yaratıyor.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SİSTEM MİMARİSİ ================= -->
+<section class="sys" id="sistem">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-tag">Sistem Mimarisi</span>
+      <h2>Sera kesitinde EXOBOR: yakıt kasetinden köke kadar kapalı döngü.</h2>
+      <p>Sıfır yanma — ateş yok, kül yok, duman yok. Kontrollü bir sıvı-katalizör tepkimesi; ısıyı, elektriği ve saf suyu tek üniteden seraya taşır.</p>
+    </div>
+
+    <div class="diagram-card rv">
+      <svg viewBox="0 0 920 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="EXOBOR sistemli sera kesit diyagramı: yakıt kaseti, reaktör, parafin ceket, yakıt pili, kondenser ve sensörler">
+        <defs>
+          <linearGradient id="ghGlass" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0" stop-color="#FDEBDD"/><stop offset="1" stop-color="#FDF6E6"/>
+          </linearGradient>
+          <linearGradient id="pcm" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#F4D27E"/><stop offset="1" stop-color="#F4A77E"/>
+          </linearGradient>
+          <marker id="arrO" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#E4582A"/></marker>
+          <marker id="arrB" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#3E89B5"/></marker>
+          <marker id="arrT" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#2E8C6A"/></marker>
+        </defs>
+
+        <rect x="0" y="392" width="920" height="6" fill="#C9DCD1"/>
+        <rect x="0" y="398" width="920" height="60" fill="#EAF1EC"/>
+
+        <g>
+          <path d="M330,392 L330,210 L560,118 L790,210 L790,392 Z" fill="url(#ghGlass)" stroke="#3E5C52" stroke-width="3"/>
+          <g stroke="#3E5C52" stroke-width="1.4" opacity=".55">
+            <line x1="406" y1="392" x2="406" y2="180"/><line x1="483" y1="392" x2="483" y2="149"/>
+            <line x1="560" y1="392" x2="560" y2="118"/><line x1="637" y1="392" x2="637" y2="149"/>
+            <line x1="714" y1="392" x2="714" y2="180"/>
+            <line x1="330" y1="300" x2="790" y2="300"/><line x1="330" y1="248" x2="790" y2="248"/>
+          </g>
+          <text x="560" y="105" text-anchor="middle" fill="#3E5C52" font-family="IBM Plex Mono, monospace" font-size="12" letter-spacing="2">SERA KESİTİ</text>
+          <g>
+            <rect x="356" y="352" width="170" height="10" rx="4" fill="#9DBBA9"/>
+            <rect x="594" y="352" width="170" height="10" rx="4" fill="#9DBBA9"/>
+            <g stroke="#9DBBA9" stroke-width="5"><line x1="372" y1="362" x2="372" y2="392"/><line x1="510" y1="362" x2="510" y2="392"/><line x1="610" y1="362" x2="610" y2="392"/><line x1="748" y1="362" x2="748" y2="392"/></g>
+            <g fill="#2E8C6A">
+              <path d="M376,352 c0,-15 5,-24 8,-24 c3,0 8,9 8,24 z"/>
+              <path d="M412,352 c0,-19 6,-29 9,-29 c3,0 9,10 9,29 z"/>
+              <path d="M450,352 c0,-15 5,-24 8,-24 c3,0 8,9 8,24 z"/>
+              <path d="M486,352 c0,-18 6,-28 9,-28 c3,0 9,10 9,28 z"/>
+              <path d="M614,352 c0,-15 5,-24 8,-24 c3,0 8,9 8,24 z"/>
+              <path d="M650,352 c0,-19 6,-29 9,-29 c3,0 9,10 9,29 z"/>
+              <path d="M688,352 c0,-15 5,-24 8,-24 c3,0 8,9 8,24 z"/>
+              <path d="M724,352 c0,-18 6,-28 9,-28 c3,0 9,10 9,28 z"/>
+            </g>
+          </g>
+          <path class="flow" d="M330,330 L780,330" stroke="#E4582A" stroke-width="5" fill="none" stroke-linecap="round" marker-end="url(#arrO)"/>
+          <text x="548" y="322" fill="#C8451D" font-family="IBM Plex Mono, monospace" font-size="10">sıcak hat 50&#176;C</text>
+          <g stroke="#E4582A" stroke-width="2" fill="none" stroke-linecap="round">
+            <path class="heatwave" d="M430,318 q4,-8 0,-16 q-4,-8 0,-16"/>
+            <path class="heatwave" style="animation-delay:.6s" d="M560,318 q4,-8 0,-16 q-4,-8 0,-16"/>
+            <path class="heatwave" style="animation-delay:1.2s" d="M690,318 q4,-8 0,-16 q-4,-8 0,-16"/>
+          </g>
+          <g>
+            <rect x="540" y="190" width="40" height="26" rx="6" fill="#10342A"/>
+            <circle cx="552" cy="203" r="3.4" fill="#4CAF7D"><animate attributeName="opacity" values="1;.25;1" dur="1.6s" repeatCount="indefinite"/></circle>
+            <circle cx="567" cy="203" r="3.4" fill="#F4A77E"/>
+            <path d="M560,190 q0,-12 0,-16" stroke="#10342A" stroke-width="2"/>
+            <circle cx="560" cy="171" r="3" fill="#10342A"/>
+          </g>
+          <path class="flow slow" d="M790,372 L770,372 L770,386 L380,386" stroke="#3E89B5" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#arrB)"/>
+        </g>
+
+        <g>
+          <rect x="58" y="160" width="218" height="232" rx="16" fill="#10342A" stroke="#1E5A45" stroke-width="2.5"/>
+          <text x="167" y="186" text-anchor="middle" fill="#A9D6BF" font-family="IBM Plex Mono, monospace" font-size="11" letter-spacing="3">EXOBOR ÜNİTESİ</text>
+          <g>
+            <rect x="80" y="200" width="80" height="34" rx="7" fill="#E4582A"/>
+            <rect x="86" y="207" width="46" height="20" rx="4" fill="#C8451D"/>
+            <text x="91" y="221" fill="#fff" font-family="IBM Plex Mono, monospace" font-size="10">NaBH&#8324;</text>
+            <rect x="150" y="208" width="6" height="18" rx="2" fill="#FBD6BC"/>
+          </g>
+          <path class="flow" d="M120,234 L120,256" stroke="#F4A77E" stroke-width="3" fill="none" marker-end="url(#arrO)"/>
+          <g>
+            <rect x="84" y="262" width="74" height="106" rx="14" fill="url(#pcm)" stroke="#C8451D" stroke-width="1.6"/>
+            <rect x="100" y="276" width="42" height="78" rx="10" fill="#1E5A45" stroke="#4CAF7D" stroke-width="1.6"/>
+            <circle class="glowpulse" cx="121" cy="316" r="11" fill="#E4582A"/>
+            <g fill="#7FD4E8">
+              <circle class="h2bubble" cx="115" cy="305" r="2.6"/>
+              <circle class="h2bubble" style="animation-delay:.9s" cx="124" cy="308" r="2.2"/>
+              <circle class="h2bubble" style="animation-delay:1.7s" cx="119" cy="310" r="2.8"/>
+            </g>
+            <text x="121" y="382" text-anchor="middle" fill="#FBD6BC" font-family="IBM Plex Mono, monospace" font-size="9">REAKTÖR + PCM</text>
+          </g>
+          <g>
+            <rect x="178" y="262" width="78" height="58" rx="10" fill="#0A241D" stroke="#4CAF7D" stroke-width="1.6"/>
+            <g stroke="#4CAF7D" stroke-width="2"><line x1="190" y1="274" x2="190" y2="308"/><line x1="202" y1="274" x2="202" y2="308"/><line x1="214" y1="274" x2="214" y2="308"/><line x1="226" y1="274" x2="226" y2="308"/><line x1="238" y1="274" x2="238" y2="308"/></g>
+            <text x="217" y="334" text-anchor="middle" fill="#A9D6BF" font-family="IBM Plex Mono, monospace" font-size="9">PEM YAKIT PİLİ</text>
+            <text x="217" y="256" text-anchor="middle" fill="#7FD4E8" font-family="IBM Plex Mono, monospace" font-size="9">H&#8322; →</text>
+          </g>
+          <path class="flow" d="M142,276 C160,266 166,262 176,262" stroke="#7FD4E8" stroke-width="2.6" fill="none"/>
+          <g>
+            <rect x="178" y="338" width="78" height="30" rx="8" fill="#123F4A" stroke="#3E89B5" stroke-width="1.5"/>
+            <text x="217" y="357" text-anchor="middle" fill="#9FD0E8" font-family="IBM Plex Mono, monospace" font-size="9">KONDENSER</text>
+          </g>
+          <path class="flow slow" d="M217,320 L217,336" stroke="#3E89B5" stroke-width="2.6" fill="none" marker-end="url(#arrB)"/>
+          <path class="flow slow" d="M176,353 C158,353 150,348 146,340" stroke="#3E89B5" stroke-width="2.6" fill="none" marker-end="url(#arrB)"/>
+          <text x="166" y="372" fill="#9FD0E8" font-family="IBM Plex Mono, monospace" font-size="8.5">saf su geri döner</text>
+        </g>
+
+        <path class="flow" d="M276,330 L326,330" stroke="#E4582A" stroke-width="5" fill="none" stroke-linecap="round" marker-end="url(#arrO)"/>
+        <path class="flow slow" d="M256,290 L300,290 L300,250 L328,250" stroke="#F4D27E" stroke-width="2.6" fill="none" stroke-dasharray="3 6"/>
+        <text x="262" y="282" fill="#B58A2B" font-family="IBM Plex Mono, monospace" font-size="9">elektrik</text>
+
+        <path class="flow slow" d="M560,168 C560,120 420,90 300,118 C240,132 200,148 178,158" stroke="#2E8C6A" stroke-width="2" fill="none" stroke-dasharray="2 7" marker-end="url(#arrT)"/>
+        <g>
+          <ellipse cx="380" cy="98" rx="34" ry="15" fill="#fff" stroke="#2E8C6A" stroke-width="1.6"/>
+          <ellipse cx="408" cy="92" rx="24" ry="12" fill="#fff" stroke="#2E8C6A" stroke-width="1.6"/>
+          <text x="393" y="101" text-anchor="middle" fill="#2E8C6A" font-family="IBM Plex Mono, monospace" font-size="9">BULUT</text>
+        </g>
+        <g>
+          <rect x="836" y="150" width="56" height="104" rx="12" fill="#10342A" stroke="#1E5A45" stroke-width="2"/>
+          <rect x="844" y="166" width="40" height="58" rx="5" fill="#EAF6EF"/>
+          <path d="M848,210 L856,200 L864,206 L872,190 L880,196" stroke="#E4582A" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <circle cx="864" cy="240" r="6" fill="#1E5A45"/>
+          <text x="864" y="146" text-anchor="middle" fill="#3E5C52" font-family="IBM Plex Mono, monospace" font-size="9">MOBİL UYG.</text>
+        </g>
+        <path class="flow slow" d="M438,96 C600,70 760,110 836,160" stroke="#2E8C6A" stroke-width="2" fill="none" stroke-dasharray="2 7" marker-end="url(#arrT)"/>
+
+        <g font-family="IBM Plex Mono, monospace" font-size="12" font-weight="600">
+          <g><circle cx="68" cy="212" r="13" fill="#E4582A"/><text x="68" y="216.5" text-anchor="middle" fill="#fff">1</text></g>
+          <g><circle cx="121" cy="252" r="13" fill="#10342A" stroke="#fff" stroke-width="2"/><text x="121" y="256.5" text-anchor="middle" fill="#fff">2</text></g>
+          <g><circle cx="76" cy="312" r="13" fill="#C8451D"/><text x="76" y="316.5" text-anchor="middle" fill="#fff">3</text></g>
+          <g><circle cx="262" cy="240" r="13" fill="#1E5A45"/><text x="262" y="244.5" text-anchor="middle" fill="#fff">4</text></g>
+          <g><circle cx="262" cy="372" r="13" fill="#3E89B5"/><text x="262" y="376.5" text-anchor="middle" fill="#fff">5</text></g>
+          <g><circle cx="598" cy="178" r="13" fill="#2E8C6A"/><text x="598" y="182.5" text-anchor="middle" fill="#fff">6</text></g>
+        </g>
+      </svg>
+
+      <div class="flow-key">
+        <span class="fk"><i style="background:#E4582A"></i>Isı hattı</span>
+        <span class="fk"><i style="background:#7FD4E8"></i>Hidrojen</span>
+        <span class="fk"><i style="background:#3E89B5"></i>Kapalı su döngüsü</span>
+        <span class="fk"><i style="background:#F4D27E"></i>Elektrik</span>
+        <span class="fk"><i style="background:#2E8C6A"></i>Sensör verisi</span>
+      </div>
+    </div>
+
+    <div class="legend-grid">
+      <div class="leg rv"><div class="n" style="background:#E4582A">1</div><div><h3>Değiştirilebilir yakıt kaseti</h3><p>Bazik NaBH₄ çözeltisi; yazıcı kartuşu gibi tek hareketle sökülüp takılır. Biten kasetteki yan ürün sodyum metaborat (NaBO₂) geri kazanılır.</p></div></div>
+      <div class="leg rv"><div class="n">2</div><div><h3>Ni-Co katalizörlü reaktör</h3><p>Peristaltik pompa çözeltiyi ucuz yerli Nikel-Kobalt katalizör yatağına basar; saniyeler içinde H₂ ve yüksek ekzotermik ısı açığa çıkar. Pompa durunca tepkime bıçak gibi kesilir.</p></div></div>
+      <div class="leg rv"><div class="n" style="background:#C8451D">3</div><div><h3>Parafin (PCM) termal ceket</h3><p>Ekzotermik ısıyı emerek erir, reaksiyonu güvenli 50&nbsp;°C bandında sabitler; pompa durduğunda gizli ısıyı saatlerce seraya yaymaya devam eder — kojenerasyon.</p></div></div>
+      <div class="leg rv"><div class="n" style="background:#1E5A45">4</div><div><h3>PEM yakıt pili</h3><p>Üretilen hidrojen oksijenle birleşerek elektriğe dönüşür; pompalar ve otomasyon şebekeye ihtiyaç duymadan beslenir.</p></div></div>
+      <div class="leg rv"><div class="n" style="background:#3E89B5">5</div><div><h3>Kondenser ve kapalı su döngüsü</h3><p>Yakıt pilinin tek yan ürünü saf sudur; yoğunlaştırılarak reaktöre geri beslenir. Sistem şebeke suyuna bağlı değildir.</p></div></div>
+      <div class="leg rv"><div class="n" style="background:#2E8C6A">6</div><div><h3>Sensörler ve mobil otomasyon</h3><p>Sıcaklık, nem ve yakıt verileri bulutta işlenir; sistem "talep anında" otonom devreye girer, kaset azaldığında telefona bildirim gönderir.</p></div></div>
+    </div>
+
+    <div class="techline rv">Teknoloji: ESP32/Atmel kontrol ünitesi · MQ-8 H₂ sızıntı sensörü · Basınç transmitteri · SS 316L çift cidarlı reaktör · Modüler: 300 m²'den 10 dönüme büyür</div>
+  </div>
+</section>
+
+<!-- ================= ÖZELLİKLER ================= -->
+<section class="features">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-tag">Neden EXOBOR</span>
+      <h2>Tek sistem, üç çıktı: ısı, elektrik ve saf su.</h2>
+      <p>Isı + Elektrik + Su üçlüsünü aynı anda sunan ve %100 yerli hammaddeye dayanan tek sistem.</p>
+    </div>
+    <div class="f-grid rv">
+      <div class="f-cell"><span class="ic">⚡</span><h3>Saniyeler içinde tepki</h3><p>Sıvı tepkimenin yüksek kinetik hızı sayesinde don tehlikesine anında yüksek ısıyla yanıt verir.</p></div>
+      <div class="f-cell"><span class="ic">⛰️</span><h3>Yerli bor avantajı</h3><p>Dünya bor rezervinin %73'üne sahip Türkiye'nin stratejik madenini enerji taşıyıcısı olarak kullanır.</p></div>
+      <div class="f-cell"><span class="ic">💰</span><h3>Ucuz yerli katalizör</h3><p>Pahalı Platin/Rutenyum yerine Nikel-Kobalt bazlı yerli sentez katalizörlerle maliyet devasa ölçüde düşer.</p></div>
+      <div class="f-cell"><span class="ic">🖨️</span><h3>Kaset ekonomisi</h3><p>Yazıcı kartuşu değiştirir gibi: biten sıvı kaseti sökülür, dolusu takılır. Sıfır ağır işçilik.</p></div>
+      <div class="f-cell"><span class="ic">📐</span><h3>Modüler ölçeklenebilirlik</h3><p>300 m²'lik aile serasından 10 dönümlük topraksız tarım tesisine kadar aynı mimariyle büyür.</p></div>
+      <div class="f-cell"><span class="ic">🌱</span><h3>Sıfır karbon, CBAM hazır</h3><p>CO₂ salmaz; AB Sınırda Karbon Vergisi'ne tam uyumlu, "sıfır karbon" etiketli premium ihracatın kapısını açar.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RAKİP & MALİYET ANALİZİ ================= -->
+<section id="karsilastirma">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-tag">Rakip Analizi</span>
+      <h2>Kömür kazanı, ısı pompası ve EXOBOR: 7 kriterde yan yana.</h2>
+    </div>
+    <div class="tbl-wrap rv">
+      <table>
+        <thead><tr><th>Kriter</th><th>Kömür Kazanı</th><th>Isı Pompası</th><th>EXOBOR</th></tr></thead>
+        <tbody>
+          <tr><td class="metric">Karbon emisyonu</td><td class="old">Çok yüksek CO₂</td><td class="mid">Dolaylı emisyon</td><td class="new">Sıfır<span class="tag">CBAM uyumlu</span></td></tr>
+          <tr><td class="metric">Yıllık işletme maliyeti</td><td class="old">60–100K TL/dönüm</td><td class="mid">Yüksek (kış elektriği)</td><td class="new">1.500–3.000 TL</td></tr>
+          <tr><td class="metric">Ağır işçilik yükü</td><td class="old">7/24 zorunlu</td><td class="mid">Düşük</td><td class="new">Sıfır — tam otonom</td></tr>
+          <tr><td class="metric">Don tepki hızı</td><td class="old">Yavaş</td><td class="mid">Orta</td><td class="new">Saniyeler içinde</td></tr>
+          <tr><td class="metric">AB CBAM uyumu</td><td class="old">Uyumsuz</td><td class="mid">Kısmen</td><td class="new">Tam uyumlu</td></tr>
+          <tr><td class="metric">Su üretimi</td><td class="old">Yok</td><td class="mid">Yok</td><td class="new">Saf su üretir</td></tr>
+          <tr><td class="metric">Hammadde bağımlılığı</td><td class="old">İthal kömür</td><td class="mid">Şebeke elektriği</td><td class="new">Yerli bor</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sec-head rv" style="margin-top:80px">
+      <span class="sec-tag">Sayısal Maliyet Analizi</span>
+      <h2>Rakamlarla karşılaştırın: ölçeğinizi seçin.</h2>
+      <p>Çift katlı polietilen, iyi yalıtımlı serada sabit 18&nbsp;°C iç sıcaklık hedefine göre hesaplanmıştır (Kırşehir iklim verileri).</p>
+    </div>
+
+    <div class="toggle-row rv">
+      <button class="tgl active" data-panel="p300">300 m² Sera (2026)</button>
+      <button class="tgl" data-panel="p1000">1 Dönüm (1000 m²)</button>
+    </div>
+
+    <div class="cost-panel show" id="p300">
+      <div class="tbl-wrap rv">
+        <table>
+          <thead><tr><th>Metrik / Parametre</th><th>Geleneksel Kömürlü Sistem</th><th>EXOBOR Otonom Sistem</th></tr></thead>
+          <tbody>
+            <tr><td class="metric">Yıllık ısı enerjisi ihtiyacı</td><td class="old">304,09 kWh/m²</td><td class="new">304,09 kWh/m²</td></tr>
+            <tr><td class="metric">İlk kurulum (CAPEX)</td><td class="old">75.000 ₺</td><td class="new">5.400 $</td></tr>
+            <tr><td class="metric">Yıllık yakıt tüketimi</td><td class="old">17,24 ton ithal kömür</td><td class="new">4,50–5,40 ton NaBH₄</td></tr>
+            <tr><td class="metric">Yıllık atık çıktısı</td><td class="old">~4,50 ton cüruf/kül</td><td class="new">7,80–9,30 ton NaBO₂<span class="tag">geri kazanılır</span></td></tr>
+            <tr><td class="metric">Yıllık işçilik gideri</td><td class="old">15.000 ₺</td><td class="new">0 ₺</td></tr>
+            <tr><td class="metric">Yıllık bakım gideri</td><td class="old">4.500 ₺</td><td class="new">900 ₺</td></tr>
+            <tr><td class="metric">Yıllık karbon emisyonu</td><td class="old">62,88 ton CO₂</td><td class="new">0 ton CO₂</td></tr>
+            <tr><td class="metric">Karbon vergisi</td><td class="old">AB ihracatında yaptırıma tabi</td><td class="new">0 ₺ — tam muafiyet</td></tr>
+            <tr><td class="metric">1 yıllık nakit çıkışı</td><td class="old">~129.000 ₺</td><td class="new">5.400 $ + kaset aboneliği</td></tr>
+            <tr><td class="metric">5 yıllık nakit çıkışı</td><td class="old">~345.000 ₺ (zamlar hariç)</td><td class="new">5.400 $ + 4.500 ₺ filtre + abonelik</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="cost-panel" id="p1000">
+      <div class="tbl-wrap rv in">
+        <table>
+          <thead><tr><th>Metrik / Parametre</th><th>Geleneksel Kömürlü Sistem</th><th>EXOBOR Otonom Sistem</th></tr></thead>
+          <tbody>
+            <tr><td class="metric">İlk kurulum (CAPEX)</td><td class="old">250.000 ₺</td><td class="new">~18.000 $</td></tr>
+            <tr><td class="metric">Yıllık yakıt / kaset</td><td class="old">60–100K ₺ kömür</td><td class="new">Kaset aboneliği</td></tr>
+            <tr><td class="metric">Yıllık işçilik gideri</td><td class="old">50.000 ₺</td><td class="new">0 ₺<span class="tag">tam otonom</span></td></tr>
+            <tr><td class="metric">Yıllık bakım gideri</td><td class="old">15.000 ₺</td><td class="new">1.500–3.000 ₺</td></tr>
+            <tr><td class="metric">Yıllık karbon emisyonu</td><td class="old">209,6 ton CO₂</td><td class="new">0 ton CO₂<span class="tag">sıfır karbon</span></td></tr>
+            <tr><td class="metric">5 yıllık toplam nakit çıkışı</td><td class="old">~1.150.000 ₺</td><td class="new">~575.000 ₺</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- cumulative cost chart -->
+    <div class="chart-card rv">
+      <h3>Kümülatif Maliyet Karşılaştırması — 1 Dönüm, Kırşehir</h3>
+      <div class="cs">Kurulum + işletme; kömür zamları hariç. Amortisman: ~52 hafta.</div>
+      <svg viewBox="0 0 640 260" role="img" aria-label="Yıl 1, 3 ve 5 için kömür ve Exobor kümülatif maliyet çubuk grafiği">
+        <g stroke="rgba(16,52,42,.08)"><line x1="60" y1="30" x2="620" y2="30"/><line x1="60" y1="85" x2="620" y2="85"/><line x1="60" y1="140" x2="620" y2="140"/><line x1="60" y1="195" x2="620" y2="195"/></g>
+        <line x1="60" y1="218" x2="620" y2="218" stroke="#3E5C52" stroke-width="1.5"/>
+        <g fill="#5b746a" font-family="IBM Plex Mono, monospace" font-size="10">
+          <text x="6" y="34">1,2M ₺</text><text x="6" y="89">800K</text><text x="6" y="144">400K</text><text x="22" y="222">0</text>
+        </g>
+        <!-- Yıl 1: kömür 430K, exobor ~600K*0? use deck: yıl1 kömür ~430K? for dönem: 1 yıl ~430.000 vs 18.000$+abone. approximate bars -->
+        <!-- scale: 1.2M = 188px tall, base y=218 -->
+        <g>
+          <!-- Yıl 1 -->
+          <rect class="bar" x="110" y="151" width="46" height="67" rx="5" fill="#7A5448"/>
+          <rect class="bar" x="162" y="180" width="46" height="38" rx="5" fill="#E4582A"/>
+          <text x="160" y="240" text-anchor="middle" fill="#3E5C52" font-family="IBM Plex Mono, monospace" font-size="11">Yıl 1</text>
+          <!-- Yıl 3 -->
+          <rect class="bar" x="290" y="95" width="46" height="123" rx="5" fill="#7A5448"/>
+          <rect class="bar" x="342" y="158" width="46" height="60" rx="5" fill="#E4582A"/>
+          <text x="340" y="240" text-anchor="middle" fill="#3E5C52" font-family="IBM Plex Mono, monospace" font-size="11">Yıl 3</text>
+          <!-- Yıl 5 -->
+          <rect class="bar" x="470" y="38" width="46" height="180" rx="5" fill="#7A5448"/>
+          <rect class="bar" x="522" y="128" width="46" height="90" rx="5" fill="#E4582A"/>
+          <text x="520" y="240" text-anchor="middle" fill="#3E5C52" font-family="IBM Plex Mono, monospace" font-size="11">Yıl 5</text>
+          <!-- value labels -->
+          <g font-family="IBM Plex Mono, monospace" font-size="10">
+            <text x="133" y="145" text-anchor="middle" fill="#7A5448">~430K</text>
+            <text x="185" y="174" text-anchor="middle" fill="#C8451D">~240K</text>
+            <text x="313" y="89" text-anchor="middle" fill="#7A5448">~790K</text>
+            <text x="365" y="152" text-anchor="middle" fill="#C8451D">~385K</text>
+            <text x="493" y="32" text-anchor="middle" fill="#7A5448">~1.150K</text>
+            <text x="545" y="122" text-anchor="middle" fill="#C8451D">~575K</text>
+          </g>
+        </g>
+        <g font-family="IBM Plex Sans, sans-serif" font-size="11">
+          <rect x="92" y="6" width="12" height="12" rx="3" fill="#7A5448"/><text x="110" y="16" fill="#3E5C52">Kömür Sistemi</text>
+          <rect x="220" y="6" width="12" height="12" rx="3" fill="#E4582A"/><text x="238" y="16" fill="#3E5C52">EXOBOR</text>
+        </g>
+      </svg>
+      <p class="tbl-note">5 yılda tasarruf: <b>~575.000 ₺</b> · Abonelikte brüt kâr marjı &gt;%60 · Kömür enflasyonu ve AB karbon vergisi sıkılaşması Exobor lehine işler.</p>
+    </div>
+    <p class="tbl-note rv">Veri kaynakları: ISIGER-SERA uzman sistemi, Eti Maden sektör raporları, EPDK, TÜİK ve MAPEG verileri, EUROSTAT/UNCTADSTAT.</p>
+  </div>
+</section>
+
+<!-- ================= PAZAR ================= -->
+<section class="market" id="pazar">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-tag">Hedef Pazar</span>
+      <h2>25–30 milyar dolarlık küresel pazarda yerli bir mavi okyanus.</h2>
+      <p>Tarımsal enerji paketlemesinde yerli ticari rakip bulunmuyor; fosil yakıt bağımlılığı ve artan enerji maliyetleri çözüme muhtaç.</p>
+    </div>
+    <div class="funnel">
+      <div class="fcard f1 rv">
+        <div><span class="scope">TAM — Küresel</span><div class="val">~25–30 Milyar $</div></div>
+        <p>Enerji maliyetini düşürmek veya AB karbon vergisinden kaçınmak isteyen tüm dünya sera işletmeleri (2026).</p>
+      </div>
+      <div class="fcard f2 rv">
+        <div><span class="scope">SAM — Türkiye</span><div class="val">~450–500 Milyon $/yıl</div></div>
+        <p>Yüksek ısıtma gideri olan, kesintisiz ısıtma yapmak zorunda olan tüm Türk sera işletmeleri.</p>
+      </div>
+      <div class="fcard f3 rv">
+        <div><span class="scope">SOM — İlk Hedef</span><div class="val">İlk 5 yılda TR kapasitesinin %5'i</div></div>
+        <p>Karasal iklimde yeni nesil topraksız tarım yatırımcıları ile AB'ye sıfır karbonlu ihracat hedefleyen vizyoner işletmeler.</p>
+      </div>
+    </div>
+    <div class="strategy rv"><b>Pazarlama stratejisi:</b> TEKNOFEST ve tarım fuarlarında çalışır prototip sergileme · Ücretsiz termo-ekonomik fizibilite raporu ile saha ziyaretleri · Anahtar teslim sera müteahhitleriyle B2B stratejik ortaklık · Referans sera ile sektör içi kulaktan kulağa büyüme.</div>
+  </div>
+</section>
+
+<!-- ================= İŞ MODELİ ================= -->
+<section id="is-modeli">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-tag">İş Modeli</span>
+      <h2>Donanım + kaset aboneliği + veri hizmetleri: döngüsel ve sürdürülebilir.</h2>
+    </div>
+    <div class="bm-grid">
+      <div class="bm hl rv">
+        <span class="k">Ana Gelir — Abonelik</span>
+        <h3>Kaset Ekonomisi</h3>
+        <p>Müşteri NaBH₄ yakıt kasetini abonelikle alır; biten kaset dolu kasetle değiştirilir. Atık NaBO₂ geri alınıp yeniden borhidrüre dönüştürülür — düzenli, yüksek marjlı ve yinelenen gelir.</p>
+      </div>
+      <div class="bm rv">
+        <span class="k">Başlangıç — B2B Satış</span>
+        <h3>Kurumsal Donanım Satışı</h3>
+        <p>Reaktör kiti + otomasyon panosu + sensör kitinin topraksız tarım yatırımcılarına ve sera kurulum firmalarına kurumsal satışı. Şirketin ilk nakit akışını oluşturur.</p>
+      </div>
+      <div class="bm rv">
+        <span class="k">Büyüme — SaaS</span>
+        <h3>Veri ve Analitik Hizmetleri</h3>
+        <p>Rekolte tahmini, AB ihracatı için karbon ayak izi raporu ve erken don uyarısı gibi gelişmiş analizler; aylık/yıllık lisans modeliyle sunulur.</p>
+      </div>
+    </div>
+    <div class="price-band rv">
+      <span>Birim donanım: <b>~18.000 $</b> / dönüm (300 m² için <b>~5.400 $</b>)</span>
+      <span>Kaset aboneliği: <b>NaBH₄ piyasa fiyatına endeksli</b></span>
+      <span>Yıllık bakım: <b>1.500–3.000 ₺</b></span>
+    </div>
+    <div class="growth-line rv">Büyüme: Yıl 1 → 3–5 pilot sera &nbsp;|&nbsp; Yıl 2–3 → 30–50 sera, kaset geliri dominant &nbsp;|&nbsp; Yıl 4–5 → 150+ sera, SaaS + global</div>
+  </div>
+</section>
+
+<!-- ================= SKA ================= -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-tag">Sürdürülebilir Kalkınma Amaçları</span>
+      <h2>Beş BM hedefine doğrudan katkı.</h2>
+    </div>
+    <div class="ska-grid">
+      <div class="ska s2 rv"><span class="no">SKA 2</span><h3>Açlığa Son</h3><p>Otonom iklim kontrolüyle gıda üretim güvenliği; rekolte kaybı riski sıfırlanır.</p></div>
+      <div class="ska s6 rv"><span class="no">SKA 6</span><h3>Temiz Su</h3><p>Yakıt pilinden saf su üretimi; kapalı döngüyle dışarıdan su kullanmaz, israfı minimize eder.</p></div>
+      <div class="ska s7 rv"><span class="no">SKA 7</span><h3>Temiz Enerji</h3><p>NaBH₄ bazlı sıfır emisyonlu enerji; yerli bor ile fosil yakıt bağımlılığı azalır.</p></div>
+      <div class="ska s12 rv"><span class="no">SKA 12</span><h3>Sorumlu Üretim</h3><p>Atık NaBO₂'nin ticari hammadde olarak geri kazanımı; döngüsel ekonomi modeli.</p></div>
+      <div class="ska s13 rv"><span class="no">SKA 13</span><h3>İklim Eylemi</h3><p>Dönüm başına yıllık 209,6 ton CO₂ sıfırlanır; AB CBAM'a tam uyum.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= NEDEN BİZ ================= -->
+<section class="why">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-tag">Neden Biz?</span>
+      <h2>Mavi okyanus fırsatı: direkt rakibi olmayan, kopyalanamayan bir avantaj yığını.</h2>
+    </div>
+    <div class="why-grid">
+      <div class="w-card rv"><span class="wk">Öncülük</span><h3>İlk Yerli Çözüm</h3><p>Tarımsal enerji için bor kullanan dünyada ilk otonom sistem. Mavi okyanus fırsatı — direkt rakip yok.</p></div>
+      <div class="w-card rv"><span class="wk">Fikri Mülkiyet</span><h3>Derin Teknoloji &amp; Patent</h3><p>Ni-Co katalizör + PCM termal batarya + PEM yakıt pili = patentlenebilir inovasyon yığını. PCT başvurusu planlandı.</p></div>
+      <div class="w-card rv"><span class="wk">Finans</span><h3>Güçlü Birim Ekonomisi</h3><p>52 haftada tam amortisman. Abonelik modeli yüksek LTV; müşteri bırakma maliyeti yüksek — güçlü retention.</p></div>
+      <div class="w-card rv"><span class="wk">Tedarik</span><h3>Stratejik Hammadde Avantajı</h3><p>Dünya bor rezervinin %73'ü Türkiye'de. Tedarik güvencesi ve maliyet avantajını hiçbir rakip kopyalayamaz.</p></div>
+      <div class="w-card rv"><span class="wk">Regülasyon</span><h3>AB Karbon Düzenlemesine Hazır</h3><p>CBAM sıkılaşıyor. Exobor sıfır karbon etiketiyle Avrupa'ya premium ihracat kapısını açıyor; rakipler açamıyor.</p></div>
+      <div class="w-card rv"><span class="wk">Ekip</span><h3>Multidisipliner Tam-Yığın Ekip</h3><p>Kimya, elektronik, yazılım, malzeme ve koordinasyon — 5 kurucu, 5 farklı disiplin, ortak vizyonda birleşik.</p></div>
+    </div>
+    <div class="why-quote rv">"Geleneksel sistemler geçmişi yakarak bugünü kurtarır; <em>Exobor geleceğin yüksek marjlı tarımını mühendisler.</em>"</div>
+  </div>
+</section>
+
+<!-- ================= YOL HARİTASI ================= -->
+<section class="roadmap">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-tag">Öngörülen Takvim</span>
+      <h2>Masaüstü prototipten küresel markaya.</h2>
+    </div>
+    <div class="timeline">
+      <div class="tl-item rv"><span class="when">Ay 1–6 · Tasarım</span><h3>Endüstriyel ölçeklendirme ve simülasyon</h3><p>MVP prototipinin gerçek sera ölçeğine taşınması; reaktör mühendisliği, PCM termal batarya tasarımı ve ısı-kütle transferi simülasyonları.</p></div>
+      <div class="tl-item rv"><span class="when">Ay 6–12 · Pilot Saha</span><h3>Kırşehir pilot kurulumu ve don testi</h3><p>Karasal iklimde gerçek bir topraksız tarım serasına entegrasyon; don şartlarında otomasyon doğrulama ve tepkime hızı testleri.</p></div>
+      <div class="tl-item rv"><span class="when">Ay 12–18 · Sertifikasyon</span><h3>CE belgesi, PCT patent, kaset lojistiği</h3><p>Uluslararası güvenlik testleri ve CE sertifikasyonu; çift cidarlı otonom reaktör için PCT patent başvurusu; kaset lojistik ve geri dönüşüm altyapısı testleri.</p></div>
+      <div class="tl-item rv"><span class="when">Yıl 1–2 · Pazara Giriş</span><h3>İlk B2B satışlar ve referans seralar</h3><p>İlk 3–5 kurumsal satış, kaset tedarik ağının devreye alınması; ardından AB ihracatçısı kesme çiçek ve egzotik meyve üreticilerine ulaşım, seri üretime geçiş ve NaBO₂ geri kazanımı.</p></div>
+      <div class="tl-item rv"><span class="when">Yıl 3–5 · Ölçek</span><h3>SaaS lisanslama ve küresel pazar</h3><p>Bulut tabanlı sera veri analitiğinin lisanslanması; Avrupa ve Orta Asya distribütörlükleriyle Exobor'un sıfır karbonlu tarım teknolojilerinde global markaya dönüşmesi.</p></div>
+    </div>
+    <div class="partners rv">
+      <span class="pk">Ekosistem Ortakları</span>
+      <div class="plist">
+        <span>Eti Maden</span><span>·</span><span>TÜBİTAK MAM</span><span>·</span><span>Pomega Enerji Depolama</span><span>·</span><span>Aselsan / Roketsan</span><span>·</span><span>HAVELSAN</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EKİP ================= -->
+<section id="ekip">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-tag">Ekibimiz</span>
+      <h2>5 kurucu, 5 farklı disiplin, ortak vizyon.</h2>
+      <p>TÜBİTAK 1812 BİGG fonuyla kuruluşu planlanan teknoloji şirketi.</p>
+    </div>
+    <div class="team-grid">
+      <div class="member rv"><div class="avatar">FA</div><h3>Furkan Ayakdaş</h3><div class="uni">Isparta Uyg. Bil. Üniv.<br>Bilgisayar Müh. (YL)</div><span class="role">Proje Lideri · Yazılım</span></div>
+      <div class="member rv"><div class="avatar">Mİ</div><h3>Merve İlhan</h3><div class="uni">Bursa Teknik Üniv.<br>Metalurji ve Malzeme Müh.</div><span class="role">Hazırlık Kaptanı · AR-GE</span></div>
+      <div class="member rv"><div class="avatar">HG</div><h3>Hoykan Gümüşoğlu</h3><div class="uni">Kütahya Dumlupınar Üniv.<br>Bilgisayar Müh.</div><span class="role">Gömülü Sistem</span></div>
+      <div class="member rv"><div class="avatar">KA</div><h3>Koray Abacı</h3><div class="uni">Bandırma Onyedi Eylül Üniv.<br>Elektrik-Elektronik Müh.</div><span class="role">Elektronik · PCB</span></div>
+      <div class="member rv"><div class="avatar">SD</div><h3>Sinem Demir</h3><div class="uni">Uludağ Üniversitesi<br>Kimya</div><span class="role">Reaktör · Katalizör</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="cta" id="iletisim">
+  <div class="wrap">
+    <span class="sec-tag">Başlayalım</span>
+    <h2>Kömür faturanızı gönderin, geri dönüş sürenizi hesaplayalım.</h2>
+    <p>Mevcut yakıt giderleriniz üzerinden seranıza özel ücretsiz termo-ekonomik fizibilite ve amortisman raporu hazırlıyoruz. Sorularınız için hazırız.</p>
+    <div class="btn-row" style="justify-content:center">
+      <a class="btn btn-primary" href="mailto:info@exobor.com">Fizibilite Raporu İste</a>
+      <a class="btn btn-ghost" href="#top">Yukarı Dön</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-inner">
+    <span><b style="color:#fff">EXOBOR</b> — Bor Katkılı Otonom Sera Isıtma Sistemi</span>
+    <span class="mono">TÜBİTAK BİGG · HAVELSAN Anka JET BİGG · Eti Maden · TÜBİTAK MAM</span>
+  </div>
+</footer>
+
+<script>
+// scroll reveal
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+},{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+// cost table toggle
+document.querySelectorAll('.tgl').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tgl').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.cost-panel').forEach(p=>p.classList.remove('show'));
+    btn.classList.add('active');
+    const panel = document.getElementById(btn.dataset.panel);
+    panel.classList.add('show');
+    panel.querySelectorAll('.rv').forEach(el=>el.classList.add('in'));
+  });
+});
+</script>
+</body>
+</html>
